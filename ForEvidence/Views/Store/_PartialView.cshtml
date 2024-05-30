@@ -1,0 +1,70 @@
+﻿@model ForEvidence.Models.ViewModels.VmStore
+@{
+
+    var listSM = ViewData["List"] as List<ForEvidence.Models.StoreMaster>;
+    var btn = Model.StoreID > 0 ? "Update" : "Add";
+    var i = 0;
+}
+
+<form asp-action="Single" asp-controller="Store" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="StoreID" /> 
+    
+    <div>
+        Date <br />
+        <input type="date" asp-for="SellDate" />
+    </div>
+    <div>
+        StoreName <br />
+        <input type="text" asp-for="StoreName" />
+    </div>
+    <div>
+        TotalDue <br />
+        <input type="number" name="TotalDue" asp-for="TotalDue" />
+    </div>
+    <div class="form-control">
+        <label asp-for="TypeID">         </label>
+
+            <select asp-for="TypeID" asp-items="@ViewBag.TypeId"></select>
+    </div>
+    <input type="radio" name="StoreType" value="Gov" checked="@Model.StoreType == "Gov"" />
+    <label asp-for="StoreType">Gov</label>
+    <input type="radio" name="StoreType" value="NonGov" checked="@Model.StoreType == " NonGov"" />
+    <label asp-for="StoreType">NonGov</label>
+ <div>
+     <image width="75" height="100" />
+     <input type="file" name="ImageFile" class="form-control changeImage" />
+ </div>
+ <table>
+     <thead>
+         <tr>
+             <td>Title</td>
+             <td><button type="button" onclick="AddItem()">Add More</button></td>
+         </tr>
+     </thead>
+     <tbody id="tSD">
+        @foreach(var item in Model.details)
+            {
+                i++;
+                <tr id="tr_@i">
+                    <td><input type="text" id="Title_@item" name="Title" value="@item.Title"> </td>
+                </tr>
+            }
+        </tbody>
+ </table>
+ <div>
+     <button type="submit">@btn</button>
+     <a href="/Store/Single">Reset</a>
+ </div>
+
+</form>
+
+<script>
+    var i = @i;
+    function AddItem() {
+        i +=1;
+        var Trs = `<tr id="tr_${i}"
+                      <td><input type="text" id="Title_1" name="Title" value=""> </td>
+        </tr>`
+        document.getElementById('tSD').innerHTML += Trs;
+    }
+</script>

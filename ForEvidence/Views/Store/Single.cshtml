@@ -1,0 +1,49 @@
+﻿@model ForEvidence.Models.ViewModels.VmStore
+@{
+    var index = 0;
+    var listSM = ViewData["List"] as List<ForEvidence.Models.StoreMaster>;
+    ViewData["Title"] = "Single";
+}
+<form asp-action= "Create" asp-controller="Store" method="post">
+    <lable name="TName">     </lable>
+        <input name="TName" required>
+        <input id="b" type="submit" value="Create" />
+</form> 
+
+@await Html.PartialAsync("_PartialView", Model)
+
+<table class="table table-striped">
+    <tr>
+        <th>Date</th>
+        <th>StoreName</th>
+        <th>StoreType</th>
+        <th>TotalDue</th>
+        <th>Image</th>
+        <th>Action</th>
+    </tr>
+    @foreach(var item in listSM)
+    {
+        <tr>
+            <td>@item.SellDate</td>
+            <td>@item.StoreName</td>
+            <td>@item.StoreType</td>
+            <td>@item.TotalDue</td>
+            <td><img src="~/Images/@item.ImageName" width="75" height="100" /></td>
+            <td><a asp-action="Single" asp-route-id="@item.StoreID">Edit</a> </td>
+            <td><a asp-action="Delete" asp-route-id="@item.StoreID">Delete</a> </td>
+        </tr>
+    }
+</table>
+<script>
+    $(document).ready(function)() {
+        $("#b").click(function() {
+            $.ajax({
+                url:'/Store/Create',
+                type:"POST",
+                data:FormData,
+                dataType:false,
+            }).done(function(data) {
+            })
+        })
+    
+</script>
